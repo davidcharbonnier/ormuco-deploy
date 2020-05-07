@@ -1,0 +1,45 @@
+- name: "Create application folder"
+  file:
+    path: "{{ ormuco_application_path }}"
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+  become: true
+
+- name: "Clone application repository"
+  git:
+    repo: "https://github.com/davidcharbonnier/ormuco-app.git"
+    dest: "{{ ormuco_application_path }}"
+
+- name: "Install application dependencies"
+  pip:
+    requirements: "{{ ormuco_application_requirements_file_path }}"
+    state: present
+    executable: pip3
+  become: true
+
+- name: "Write application configuration"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0400
+  loop:
+  - { src: 'env.db', dest: "{{ ormuco_application_path + '/.env.db' }}" }
+  - { src: 'env.prod', dest: "{{ ormuco_application_path + '/.env.prod' }}" }
+
+- name: "Start application"
+  docker_compose:
+    build: yes
+    project_src: "{{ ormuco_application_path }}"
+    pull: yes
+    scale:
+      web: "{{ ormuco_application_replicas }}"
+    state: present
+  become: true
+
+- name: "Initialize database"
+  shell: 
+    cmd: /usr/local/bin/docker-compose exec web python manage.py init_db
+    chdir: "{{ ormuco_application_path }}"
+  become: true
+  when: ormuco_fresh_install

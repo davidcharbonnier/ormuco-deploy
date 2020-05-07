@@ -1,0 +1,20 @@
+- name: "Add Ormuco SSH key"
+  authorized_key:
+    user: ec2-user
+    state: present
+    key: http://paste.openstack.org/raw/osn4Yi7NFIb6PsYpRkT8
+    exclusive: no
+    manage_dir: yes
+
+- name: "Install system packages"
+  package:
+    name: "{{ ormuco_system_packages }}"
+    state: present
+  become: true
+
+- name: "Start and enable docker"
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: true

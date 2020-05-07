@@ -1,0 +1,7 @@
+- include: prerequisites.yml
+  tags:
+  - prerequisites
+
+- include: application.yml
+  tags:
+  - application
