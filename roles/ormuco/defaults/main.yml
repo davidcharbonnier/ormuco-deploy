@@ -1,0 +1,8 @@
+ormuco_system_packages:
+- docker
+- python3-pip
+- python-virtualenv
+- git
+ormuco_application_path: /opt/ormuco-app
+ormuco_application_requirements_file_path: "{{ ormuco_application_path + '/requirements.txt' }}"
+ormuco_environment: production
