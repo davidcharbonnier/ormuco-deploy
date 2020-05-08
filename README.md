@@ -90,6 +90,14 @@ ansible-playbook -i inventory site.yml --ask-vault-pass -e ormuco_application_re
 
 Be aware that after scaling application, you need to report this value in playbook for future run, if not, application will be scaled down to playbook replicas value.
 
+If required, subset of application deployment can be launched at a time using tags:
+
+```bash
+ansible-playbook -i inventory site.yml --ask-vault-pass -t prerequisites
+ansible-playbook -i inventory site.yml --ask-vault-pass -t hardening
+ansible-playbook -i inventory site.yml --ask-vault-pass -t application
+```
+
 ## Not yet implemented
 
 Here is list of improvement that could be implemented:
