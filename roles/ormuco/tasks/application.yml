@@ -38,6 +38,7 @@
     state: present
   become: true
 
+# Cannot use docker_compose module here, only a shell or command module can be used
 - name: "Initialize database"
   shell: 
     cmd: /usr/local/bin/docker-compose exec web python manage.py init_db

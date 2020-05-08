@@ -1,3 +1,9 @@
+# Due to Docker way of creating and handling iptables rules, 
+# cannot use iptables module, it is more efficient to write 
+# a file loaded by iptables-restore
+# No service is present here to apply iptables rules at boot 
+# because server should not reboot to not lose its public 
+# IP address, hence his DNS name
 - name: "Write iptables rules"
   copy:
     src: iptables.save
