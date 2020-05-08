@@ -1,0 +1,8 @@
+- name: "Write iptables rules"
+  copy:
+    src: iptables.save
+    dest: /etc/sysconfig/iptables.save
+  notify: "Restore iptables rules"
+  become: true
+
+- meta: flush_handlers

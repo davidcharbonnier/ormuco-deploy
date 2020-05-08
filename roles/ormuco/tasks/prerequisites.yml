@@ -10,11 +10,9 @@
   package:
     name: "{{ ormuco_system_packages }}"
     state: present
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
+  notify: "Start and enable docker service"
   become: true
 
-- name: "Start and enable docker"
-  service:
-    name: docker
-    state: started
-    enabled: yes
-  become: true
+- meta: flush_handlers

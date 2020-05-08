@@ -9,6 +9,7 @@
 - name: "Clone application repository"
   git:
     repo: "https://github.com/davidcharbonnier/ormuco-app.git"
+    version: master
     dest: "{{ ormuco_application_path }}"
 
 - name: "Install application dependencies"
