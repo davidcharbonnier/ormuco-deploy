@@ -82,7 +82,7 @@ Or:
 ansible-playbook -i inventory site.yml --ask-vault-pass -e ormuco_fresh_install=false
 ```
 
-To scale update and scale application to a new number of replicas, 10 here:
+To update and scale application to a new number of replicas, 10 here:
 
 ```bash
 ansible-playbook -i inventory site.yml --ask-vault-pass -e ormuco_application_replicas=10
