@@ -2,6 +2,10 @@
   tags:
   - prerequisites
 
+- include: hardening.yml
+  tags:
+  - hardening
+
 - include: application.yml
   tags:
   - application

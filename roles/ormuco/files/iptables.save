@@ -1,0 +1,32 @@
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:FILTERS - [0:0]
+:DOCKER-USER - [0:0]
+
+-F INPUT
+-F DOCKER-USER
+-F FILTERS
+
+# Allow internal traffic
+-A INPUT -i lo -j ACCEPT
+
+# Chain all traffic to FILTERS
+-A INPUT -j FILTERS
+-A DOCKER-USER -i eth0 -j FILTERS
+
+# Accept already established traffic
+-A FILTERS -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Accept SSH traffic
+-A FILTERS -p tcp -m tcp --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+
+# Accept HTTP/S traffic
+-A FILTERS -p tcp -m tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+-A FILTERS -p tcp -m tcp --dport 443 -m conntrack --ctstate NEW -j ACCEPT
+
+# Final DROP
+-A FILTERS -j DROP
+
+COMMIT

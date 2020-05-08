@@ -1,0 +1,10 @@
+- name: "Start and enable docker service"
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: true
+
+- name: "Restore iptables rules"
+  shell: iptables-restore -n < /etc/sysconfig/iptables.save
+  become: true
